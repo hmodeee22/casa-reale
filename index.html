@@ -1,0 +1,131 @@
+```html
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa Reale</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Casa Reale</h1>
+    <nav>
+      <a href="#home">בית</a>
+      <a href="#products">מוצרים</a>
+      <a href="#contact">צור קשר</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div>ברוכים הבאים ל-Casa Reale – מותגים יוקרתיים בהישג יד</div>
+  </section>
+
+  <div class="cart" id="cart">
+    <h3>העגלה שלי</h3>
+    <ul id="cart-items"></ul>
+    <strong>סה"כ: <span id="total">0</span> ₪</strong>
+    <button class="btn" onclick="submitOrder()">הזמן עכשיו</button>
+  </div>
+
+  <section class="products" id="products">
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1600181958893-d368d728df12?auto=format&fit=crop&w=800&q=80" alt="ארנק Guess">
+      <h3>ארנק GUESS לנשים</h3>
+      <p>עור איכותי, צבע שחור.</p>
+      <p><strong>₪250</strong></p>
+      <button class="btn" onclick="addToCart('ארנק GUESS', 250)">הוסף לעגלה</button>
+    </div>
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=800&q=80" alt="שעון Fossil">
+      <h3>שעון FOSSIL לגבר</h3>
+      <p>רצועת עור חומה, מנגנון קוורץ.</p>
+      <p><strong>₪480</strong></p>
+      <button class="btn" onclick="addToCart('שעון FOSSIL', 480)">הוסף לעגלה</button>
+    </div>
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=800&q=80" alt="צמיד כסף">
+      <h3>צמיד כסף ARMANI</h3>
+      <p>ציפוי כסף, עיצוב אלגנטי.</p>
+      <p><strong>₪320</strong></p>
+      <button class="btn" onclick="addToCart('צמיד ARMANI', 320)">הוסף לעגלה</button>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" style="padding: 2em;">
+    <h2>צור קשר</h2>
+    <form id="contact-form">
+      <input type="text" name="name" placeholder="שם מלא" required><br><br>
+      <input type="email" name="email" placeholder="אימייל" required><br><br>
+      <input type="tel" name="phone" placeholder="טלפון"><br><br>
+      <textarea name="message" placeholder="הודעה" required></textarea><br><br>
+      <button class="btn" type="submit">שלח הודעה</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Casa Reale. כל הזכויות שמורות.
+  </footer>
+
+  <script>
+    let cart = [];
+
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price;
+        const li = document.createElement('li');
+        li.textContent = `${item.product} - ₪${item.price}`;
+        cartItems.appendChild(li);
+      });
+      document.getElementById('total').textContent = total;
+    }
+
+    function submitOrder() {
+      const name = prompt("הכנס את שמך המלא:");
+      const email = prompt("הכנס אימייל:");
+      const phone = prompt("מספר טלפון:");
+      if (!name || !email) return alert("יש למלא שם ואימייל.");
+
+      const data = new FormData();
+      data.append("name", name);
+      data.append("email", email);
+      data.append("phone", phone);
+      data.append("cart", JSON.stringify(cart));
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      data.append("total", total);
+
+      fetch('https://script.google.com/macros/s/AKfycbxutTYtYDgM4qPtoGlmKsILoyIZxbYj-c7L21GXrhZ6wTAC8LR9Gel09qXUPWFssW29qA/exec', { method: 'POST', body: data })
+        .then(res => res.json())
+        .then(() => {
+          alert("ההזמנה התקבלה! נחזור אליך בהקדם.");
+          cart = [];
+          updateCart();
+        })
+        .catch(err => alert("שגיאה בשליחת ההזמנה"));
+    }
+
+    // שליחת טופס יצירת קשר
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      fetch('YOUR_CONTACT_GOOGLE_SCRIPT_URL_HERE', {
+        method: 'POST',
+        body: formData
+      })
+      .then(() => alert("תודה על פנייתך!"))
+      .catch(() => alert("אירעה שגיאה בשליחת הטופס."));
+      this.reset();
+    });
+  </script>
+</body>
+</html>
+```
