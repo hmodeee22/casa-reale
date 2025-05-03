@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "ארנק GUESS לנשים",
+    "description": "ארנק עור איכותי בצבע שחור",
+    "price": 250,
+    "image": "https://images.unsplash.com/photo-1600181958893-d368d728df12?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 2,
+    "name": "שעון FOSSIL לגבר",
+    "description": "שעון אלגנטי עם רצועת עור חומה",
+    "price": 480,
+    "image": "https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 3,
+    "name": "צמיד כסף ARMANI",
+    "description": "צמיד אלגנטי מצופה כסף",
+    "price": 320,
+    "image": "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=800&q=80"
+  }
+]
